@@ -1,0 +1,81 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.7
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Tempo de geração: 11-Jan-2022 às 15:23
+-- Versão do servidor: 10.3.32-MariaDB
+-- versão do PHP: 7.3.33
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Banco de dados: `hoog1698_cartao`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `medicos`
+--
+
+CREATE TABLE `medicos` (
+  `id` bigint(20) NOT NULL,
+  `nome` varchar(150) DEFAULT NULL,
+  `crm` varchar(11) DEFAULT NULL,
+  `data_crm` date DEFAULT NULL,
+  `cpf` varchar(11) DEFAULT NULL,
+  `telefone` varchar(13) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  `id_especialidade` bigint(20) DEFAULT NULL,
+  `id_clinica` bigint(20) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `medicos`
+--
+
+INSERT INTO `medicos` (`id`, `nome`, `crm`, `data_crm`, `cpf`, `telefone`, `descricao`, `id_especialidade`, `id_clinica`, `created_at`, `updated_at`) VALUES
+(1, 'Medico Hoogli', '32462356', '2022-01-03', '3562354', '32456235', 'Descrição', 2, 2, '2022-01-10 21:10:31', '2022-01-10 21:10:31'),
+(2, 'Medico Hoogli 2', '32462356', '2022-01-03', '3562354', '32456235', 'Descrição', 3, 1, '2022-01-10 21:10:31', '2022-01-10 21:10:31'),
+(3, 'Medico Hoogli 3', '32462356', '2022-01-03', '3562354', '32456235', 'Descrição', 1, 2, '2022-01-10 21:10:31', '2022-01-10 21:10:31'),
+(4, 'Dra. Juliana Bonde do Forró', '32462356', '2022-01-03', '3562354', '32456235', 'Descrição', 1, 2, '2022-01-10 21:10:31', '2022-01-10 21:10:31');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `medicos`
+--
+ALTER TABLE `medicos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_medicosClinica` (`id_clinica`),
+  ADD KEY `FK_medicosEspecialidade` (`id_especialidade`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `medicos`
+--
+ALTER TABLE `medicos`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `medicos`
+--
+ALTER TABLE `medicos`
+  ADD CONSTRAINT `FK_medicosClinica` FOREIGN KEY (`id_clinica`) REFERENCES `clinicas` (`id`),
+  ADD CONSTRAINT `FK_medicosEspecialidade` FOREIGN KEY (`id_especialidade`) REFERENCES `especialidades` (`id`);
+COMMIT;
