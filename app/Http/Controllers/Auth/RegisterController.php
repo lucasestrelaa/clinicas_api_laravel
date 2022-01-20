@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -53,6 +54,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        
     }
 
     /**
@@ -67,6 +69,32 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    protected function create2(Request $data)
+    {
+
+        // $dadosValidados = Validator::make($data, [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:6|confirmed',
+        // ]);
+        // $this->validate($data,[
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:6|confirmed',
+        // ]);
+
+        $token = md5(substr( md5($data['email']), 0, 4) . '%'. getEnv('APP_NAME'));
+        
+        return User::create([
+            'name' => $data->name,
+            'email' => $data->email,
+            'role_id' => $data->role_id,
+            'token' => $token,
+            //'remember_token' => $client_token,
+            'password' => Hash::make($data->password),
         ]);
     }
 }
